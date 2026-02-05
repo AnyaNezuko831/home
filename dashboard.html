@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Atmosphere Solcus – Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Firebase COMPAT (ok per GitHub Pages) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.box {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+h2 {
+    text-align: center;
+}
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #203a43;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+#error {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+small {
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Sign In</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Accedi</button>
+    <small><a href="#" onclick="register()">Registrati</a></small>
+    <p id="error"></p>
+</div>
+
+<script>
+/* 🔥 CONFIG FIREBASE (IL TUO, GIÀ CORRETTO) */
+const firebaseConfig = {
+  apiKey: "AIzaSyA36nw-1uJMgmF4UlxD7q69R9iT-RDkkDo",
+  authDomain: "atmosolcus.firebaseapp.com",
+  projectId: "atmosolcus",
+  storageBucket: "atmosolcus.firebasestorage.app",
+  messagingSenderId: "130898331720",
+  appId: "1:130898331720:web:d75f7169fe7780eded307d"
+};
+
+/* INIT */
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+/* LOGIN */
+function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+            window.location.href = "dashboard.html";
+        })
+        .catch(error => {
+            document.getElementById("error").innerText = error.message;
+        });
+}
+
+/* REGISTRAZIONE */
+function register() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+            alert("Registrazione completata!");
+        })
+        .catch(error => {
+            document.getElementById("error").innerText = error.message;
+        });
+}
+</script>
+
+</body>
+</html>
