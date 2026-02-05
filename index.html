@@ -2,102 +2,42 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Atmosphere Solcus</title>
+<title>Atmosphere Solcus – Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-* {
-    box-sizing: border-box;
-    font-family: "Segoe UI", Arial, sans-serif;
-}
+<!-- Firebase COMPAT (ok per GitHub Pages) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
+<style>
 body {
     margin: 0;
+    font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
-}
-
-/* NAV */
-nav {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-}
-
-nav h1 {
-    margin: 0;
-    font-size: 22px;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: 500;
-}
-
-/* HERO */
-.hero {
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 40px;
+    align-items: center;
+    min-height: 100vh;
 }
-
-.hero h2 {
-    font-size: 48px;
-    margin-bottom: 15px;
-}
-
-.hero p {
-    font-size: 18px;
-    opacity: 0.9;
-}
-
-.btn {
-    display: inline-block;
-    margin-top: 25px;
-    padding: 14px 30px;
-    background: #ffffff;
-    color: #203a43;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* SIGN IN */
-#signin {
+.box {
     background: white;
-    color: #203a43;
-    padding: 60px 20px;
-}
-
-.signin-box {
-    max-width: 400px;
-    margin: auto;
-    background: #f5f7fa;
     padding: 30px;
     border-radius: 14px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
-
-.signin-box h3 {
+h2 {
     text-align: center;
-    margin-bottom: 20px;
 }
-
-.signin-box input {
+input {
     width: 100%;
     padding: 12px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     border-radius: 8px;
     border: 1px solid #ccc;
 }
-
-.signin-box button {
+button {
     width: 100%;
     padding: 12px;
     border: none;
@@ -107,58 +47,73 @@ nav a {
     font-size: 16px;
     cursor: pointer;
 }
-
-.signin-box small {
+#error {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+small {
     display: block;
     text-align: center;
-    margin-top: 15px;
-    opacity: 0.7;
-}
-
-/* FOOTER */
-footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 14px;
-    opacity: 0.6;
+    margin-top: 12px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<nav>
-    <h1>Atmosphere Solcus</h1>
-    <div>
-        <a href="#home">Home</a>
-        <a href="#signin">Sign In</a>
-    </div>
-</nav>
+<div class="box">
+    <h2>Sign In</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Accedi</button>
+    <small><a href="#" onclick="register()">Registrati</a></small>
+    <p id="error"></p>
+</div>
 
-<!-- HOME -->
-<section class="hero" id="home">
-    <div>
-        <h2>Welcome to Atmosphere Solcus</h2>
-        <p>Creative space · Digital identity · Vision</p>
-        <a href="#signin" class="btn">Accedi</a>
-    </div>
-</section>
+<script>
+/* 🔥 CONFIG FIREBASE (IL TUO, GIÀ CORRETTO) */
+const firebaseConfig = {
+  apiKey: "AIzaSyA36nw-1uJMgmF4UlxD7q69R9iT-RDkkDo",
+  authDomain: "atmosolcus.firebaseapp.com",
+  projectId: "atmosolcus",
+  storageBucket: "atmosolcus.firebasestorage.app",
+  messagingSenderId: "130898331720",
+  appId: "1:130898331720:web:d75f7169fe7780eded307d"
+};
 
-<!-- SIGN IN -->
-<section id="signin">
-    <div class="signin-box">
-        <h3>Sign In</h3>
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <button>Accedi</button>
-        <small>Accesso demo – nessun dato salvato</small>
-    </div>
-</section>
+/* INIT */
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 
-<footer>
-    © 2026 Atmosphere Solcus – All rights reserved
-</footer>
+/* LOGIN */
+function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+            window.location.href = "dashboard.html";
+        })
+        .catch(error => {
+            document.getElementById("error").innerText = error.message;
+        });
+}
+
+/* REGISTRAZIONE */
+function register() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+            alert("Registrazione completata!");
+        })
+        .catch(error => {
+            document.getElementById("error").innerText = error.message;
+        });
+}
+</script>
 
 </body>
 </html>
