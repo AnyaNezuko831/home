@@ -1,80 +1,114 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Dashboard | Atmosphere Solcus</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Firebase Modular -->
+  <script type="module" src="./firebase.js"></script>
+  <script type="module" src="./dashboard.js"></script>
+
+  <!-- FONT CANVA-LIKE -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: #0f2027;
-      color: #fff;
+      background: #ffffff;
+      color: #2c2c2c;
     }
 
     .hero {
-      height: 260px;
+      height: 280px;
       background:
-        linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
-        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee");
+        linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1350&q=80");
       background-size: cover;
+      background-position: center;
       display: flex;
       align-items: center;
-      padding: 40px;
+      justify-content: center;
+      padding: 0 20px;
+      color: #fff;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      margin: 0;
+      font-weight: 600;
     }
 
     .container {
-      max-width: 1100px;
-      margin: -60px auto 40px;
+      max-width: 1000px;
+      margin: -50px auto 40px;
       padding: 0 20px;
     }
 
     .card {
-      background: rgba(255,255,255,.08);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 25px;
-      backdrop-filter: blur(6px);
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0px 4px 16px rgba(0,0,0,0.12);
+      padding: 24px 20px;
+      margin-bottom: 30px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 24px;
+      font-weight: 500;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     }
 
-    .img-card {
-      height: 200px;
-      border-radius: 16px;
-      overflow: hidden;
+    .img-block {
       position: relative;
+      height: 180px;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s ease;
     }
 
-    .img-card img {
+    .img-block:hover {
+      transform: scale(1.05);
+    }
+
+    .img-block img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    .overlay {
+    .img-block .txt {
       position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
+      bottom: 14px;
+      left: 14px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 18px;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.7);
     }
 
-    button {
-      background: #ff6b6b;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 10px;
+    .btn {
+      background: #fa7268;
       color: #fff;
+      padding: 12px 22px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
       cursor: pointer;
+      margin-top: 12px;
+    }
+
+    .btn:hover {
+      background: #e35b53;
     }
   </style>
 </head>
@@ -82,36 +116,37 @@
 <body>
 
 <div class="hero">
-  <h1>Atmosphere Solcus</h1>
+  <h1>La tua Area Personale</h1>
 </div>
 
 <div class="container">
 
+  <!-- UTENTE -->
   <div class="card">
     <h2>Benvenuta ✨</h2>
     <p id="userEmail">Caricamento...</p>
-    <button id="logoutBtn">Logout</button>
+    <button class="btn" id="logoutBtn">Logout</button>
   </div>
 
+  <!-- SEZIONI -->
   <div class="grid">
-    <div class="img-card">
-      <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
-      <div class="overlay">Progetti</div>
+    <div class="img-block" onclick="location.href='progetti.html'">
+      <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80">
+      <div class="txt">I tuoi Progetti</div>
     </div>
 
-    <div class="img-card">
-      <img src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d">
-      <div class="overlay">Contenuti</div>
+    <div class="img-block" onclick="location.href='contatti.html'">
+      <img src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=800&q=80">
+      <div class="txt">Messaggi e Contatti</div>
     </div>
 
-    <div class="img-card">
-      <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7">
-      <div class="overlay">Percorsi</div>
+    <div class="img-block" onclick="location.href='statistiche.html'">
+      <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=80">
+      <div class="txt">Statistiche</div>
     </div>
   </div>
 
 </div>
 
-<script type="module" src="./dashboard.js"></script>
 </body>
 </html>
